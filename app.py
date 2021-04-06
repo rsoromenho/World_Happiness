@@ -18,14 +18,15 @@ df_15_19_code = pd.read_csv(path + 'df_15_19_code.csv')
 df_tab1_test = pd.read_csv(path + 'tab1_test.csv')
 df_gdp = pd.read_csv(path + 'df_gdp.csv') 
 
+#Setting background and text colors--------------------------------------------------------------------------
 colors = {
     'background': '#FFD300',#C4E8FA
     'text': 'black'
 }
 
-# -----------Dropdowns, Slicers and Radios  -----------------------------------------------------------------
+#Dropdowns, Slicers and Radios  -----------------------------------------------------------------------------
 
-#Creating dropdown, radio and slider for df1
+#Creating dropdown, checklist, radio and slider
 country_options = [
     dict(label='' + country, value=country)
     for country in df_1['Country'].unique()]
@@ -132,7 +133,7 @@ year_slider2 = dcc.RangeSlider(
                '2019': '2019'},
         step=1
     )
-#----------------Some styling preparation -------------------------------------------------------------------
+#Some styling preparation for tabs -------------------------------------------------------------------
 
 tab_style = {
     'fontWeight': 'bold',
@@ -150,13 +151,14 @@ tab_selected_style = {
     'fontWeight': 'bold'
 }
 
-# --------------APP--------------------------------------------------------------------------------------------
+# Setting up APP--------------------------------------------------------------------------------------------
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets, suppress_callback_exceptions=True)
 
 server = app.server
 
+#Create overall title and tabs to use ----------------------------------------------------------------------
 app.layout = html.Div([html.Br(),html.Div([html.H2('How happy is your country?',
                                                    style={'textAlign': 'center'
                                                           }),
@@ -175,10 +177,9 @@ app.layout = html.Div([html.Br(),html.Div([html.H2('How happy is your country?',
                        html.Div(id='tabs_content'),
 
                        ], style={'backgroundColor': colors['background'], 'font-family': 'Copperplate Gothic', 'margin-bottom': '0px'}) 
-  #-----------------------------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------------------------------------------------------------
  
-#Callback for map
-
+#Callback for world happiness map
 @app.callback(
     dash.dependencies.Output('happiness_map', 'figure'),
     [dash.dependencies.Input('year_slider2', 'value')]
@@ -216,7 +217,8 @@ def update_map(year):
         )
 
     return fig 
-#Callback for top happy
+
+#Callback for top happy countries -------------------------------------------------------------------------
 @app.callback(
     dash.dependencies.Output('tableTop', 'figure'),
     [
@@ -239,7 +241,7 @@ def update_table2(year):
     
     return fig        
   
-#Callback for top sad      
+#Callback for top sad countries -------------------------------------------------------------------------     
 @app.callback(
     dash.dependencies.Output('tableBottom', 'figure'),
     [
@@ -262,7 +264,7 @@ def update_table2(year):
     
     return fig
 
-#Add callback from comparison graph
+#Add callback from comparison graph ---------------------------------------------------------------------------
 @app.callback(
     dash.dependencies.Output('graph_example', 'figure'),
     [dash.dependencies.Input('country_drop', 'value'),
@@ -300,7 +302,7 @@ def update_graph_1(countries, indicator, year):
 
     return fig        
 
-#Callback for paralel graph
+#Callback for parallel graph ------------------------------------------------------------------------------------
 @app.callback(
     dash.dependencies.Output('paralel_graph', 'figure'),
     [dash.dependencies.Input('region_drop', 'value'),
@@ -334,10 +336,7 @@ def update_paralel(region):
                   dict(range=[df['Generosity'].min(),df['Generosity'].max()],
                        label='Generosity', values=df['Generosity']),
                   dict(range=[df['Perceptions of corruption'].min(),df['Perceptions of corruption'].max()],
-                       label='Corruption', values=df['Perceptions of corruption']),
-                   
-                  
-                  
+                       label='Corruption', values=df['Perceptions of corruption']), 
                   ])
 
     fig = go.Figure(data=go.Parcoords(line = dict(color = df['dummy'],
@@ -351,7 +350,7 @@ def update_paralel(region):
 
     return fig
 
-#Callback for bubble graph
+#Callback for bubble graph ---------------------------------------------------------------------------------------------
 @app.callback(
     dash.dependencies.Output('bubble_graph', 'figure'),
     [dash.dependencies.Input('country_drop3', 'value'),
@@ -517,7 +516,8 @@ def show_content(tab):
                      style={'width': '70%', 'textAlign': 'center'}, className='box')], 
             
             style={'padding-right': '10%','display': 'flex'})
-    
+
+#Setting app name
 app.title = "World Happiness"
 
 if __name__ == '__main__':
