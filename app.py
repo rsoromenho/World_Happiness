@@ -1,4 +1,3 @@
-
 import dash
 import dash_html_components as html
 import dash_core_components as dcc
@@ -42,14 +41,14 @@ region_options = [
 dropdown_country = dcc.Dropdown(
         id='country_drop',
         options=country_options,
-        value=['Portugal'],
+        value=['Portugal', 'Germany', 'Mexico'],
         multi=True
     )
 
 dropdown_country1 = dcc.Dropdown(
         id='country_drop',
         options=country_options,
-        value=['Portugal'],
+        value=['Portugal', 'Germany', 'Mexico'],
         multi=True
     )
 
@@ -63,7 +62,7 @@ dropdown_country2 = dcc.Dropdown(
 dropdown_country3 = dcc.Dropdown(
         id='country_drop3',
         options=country_options,
-        value=df_tab1_test['Country'].unique()[:30],
+        value=list(df_tab1_test['Country'].unique()[:20])+list(df_tab1_test['Country'].unique()[-20:]),
         multi=True
     )
 
@@ -372,7 +371,7 @@ def update_bubble(countries):
                           mode = 'lines',
                           line=dict(dash='dot'),
                           marker_color='darkblue',
-                          name='Expected happiness for wealth level (linear)')
+                          name='Expected for wealth level (linear)')
                           )
     
     fig.update_layout(
@@ -395,9 +394,9 @@ def show_content(tab):
                                          html.Iframe(src='https://www.youtube.com/embed/6Pm0Mn0-jYU'),
                                          html.Br(),
                                          ],
-                                        style={'padding-left': '10%','width': '40%'}, className='box'),
+                                        style={'padding-left': '10%','width': '40%', 'textAlign': 'center'}, className='box'),
                 
-            html.Div([html.Br(),html.Br(), html.H4('5 definitions you must know!'),
+            html.Div([html.Br(),html.Br(),html.Br(), html.Br(),
                      html.P('1. Happiness is not something ready made. It comes from your own actions. – Dalai Lama'),
                      html.P('2. Happiness is when what you think, what you say, and what you do are in harmony. – Mahatma Gandhi'),
                      html.P('3. Happiness doesn’t depend on any external conditions, it is governed by our mental attitude. – Dale Carnegie'),
@@ -411,7 +410,7 @@ def show_content(tab):
         
             html.Div([html.Br(), html.H3('World Happiness Map',
                               style={'textAlign': 'center',}),
-                      html.P('Select a year and see wich country would you move to!',
+                      html.P('Select a year and consider where and when would you move...',
                              style={'textAlign': 'center'}),
                       year_slider2,
                       dcc.Graph(id='happiness_map')], 
@@ -438,13 +437,11 @@ def show_content(tab):
                     ], style={'padding-right': '10%','width': '40%'}, className='box'),
                 ],
             style={'display': 'flex'}),
-            
-            html.Div(html.Img(src=app.get_asset_url('whr-logo.png'), style={'height': '10%', 'width': '10%'}))
             ])
 
     elif tab == 'tab-2':
         return html.Div([html.Br(),
-            html.Div([html.H3('Happiness Components:',
+            html.Div([html.H3('Happiness is measured across 6 major components',
                               style={'padding-left': '5%'}),
                 html.Div([html.Br(),
                           html.P('1. GDP - value of happiness explained by GDP per capita of the country'),
@@ -453,6 +450,7 @@ def show_content(tab):
                           html.P('4. Freedom - value of happiness explained by perceived freedom to make own choices within country'),
                           html.P('5. Generosity - value of happiness explained by perceived generosity among country fellows'),
                           html.P('6. Corruption - value of happiness explained by perception corruption within the country'),
+                          html.Br()
                 ], style={'textAlign': 'left',
                           'backgroundColor': 'lightblue',
                           'borderTop': '2px solid steelblue',
@@ -468,9 +466,9 @@ def show_content(tab):
             
             html.Div([
                 html.Div([html.Br(),
-                    html.P('Here you may explore the differences and understand how people perceive the components across regions.'),
+                    html.P('Explore the visual to understand how happiness components vary across regions.'),
                     dcc.Graph(id='paralel_graph'),
-                    ], style={'padding-left': '5%', 'width': '80%'}, className='box'),
+                    ], style={'padding-left': '5%', 'width': '80%', 'textAlign': 'center'}, className='box'),
         
                 html.Div([
                     html.H3('Select regions:'),
@@ -485,19 +483,19 @@ def show_content(tab):
 
     elif tab == 'tab-3':
         return html.Div([
-            html.Div([html.H3('Select countries to compare:'),
+            html.Div([html.H3('Select countries to compare'),
                       dropdown_country,
                       html.Br(),
-                      html.H3('Select your indicator:'),
+                      html.H3('Select an indicator'),
                       radio_indicator2], 
                      style={'padding-left': '10%', 'padding-right': '5%','width': '30%', 'background-color': colors['background']}, className=''),
 
             html.Div([html.Br(),
-                    html.P('Feel free to compare countries across happiness scores and components.'),
-                    html.P('You may compare more than 2 countries at once and explore the evolution by year!'),
+                    html.P('Compare happiness or component scores across countries.'),
+                    html.P('You can compare more than 2 countries at once and explore the indicator evolution over time.'),
                     dcc.Graph(id='graph_example'),
                       year_slider],
-                     style={'width': '70%'}, className='box')], 
+                     style={'width': '70%', 'textAlign': 'center'}, className='box')], 
             
             style={'padding-right': '10%','display': 'flex'})
     
@@ -510,12 +508,13 @@ def show_content(tab):
                       ],
                      style={'padding-left': '10%', 'padding-right': '5%','width': '30%', 'background-color': colors['background']}, className=''),
 
-            html.Div([html.Br(),
-                    html.P('There is a well known saying that states that money cannot buy happiness. Do you agree? Explore for each country and region if this is actually true or just a fairy tail invented from rich people to keep poor people in line!'),
-                    html.P('Hint: Are South American people happier with less? Explore and find the answer to this question!'),
+            html.Div([html.Br(), html.Br(), html.Br(),
+                    html.P('There is a well known saying that states that money cannot buy happiness. Do you agree?'),
+                    html.P('Explore and find out if this is  true or just a fairy tail invented by rich people to keep poor people in line...'),
+                    html.P('Hint: Are South American people happier with less? Investigate and find the answer to this question!'),
                     dcc.Graph(id='bubble_graph')
                       ],
-                     style={'width': '70%'}, className='box')], 
+                     style={'width': '70%', 'textAlign': 'center'}, className='box')], 
             
             style={'padding-right': '10%','display': 'flex'})
     
