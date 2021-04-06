@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Apr  5 15:59:03 2021
-
-@author: rafael.soromenho
-"""
 
 import dash
 import dash_html_components as html
