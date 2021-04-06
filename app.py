@@ -12,7 +12,7 @@ import statsmodels.api as sm
 
 #Importing data----------------------------------------------------------------------------------------------
 
-path = 'https://github.com/rsoromenho/World_Happiness/tree/main/datasets'
+path = 'https://raw.githubusercontent.com/rsoromenho/World_Happiness/master/datasets/'
 df_1 = pd.read_csv(path + 'df_15_19.csv')
 df_2 = pd.read_csv(path + 'happiness-cantril-ladder.csv')
 df_15_19_code = pd.read_csv(path + 'df_15_19_code.csv')
